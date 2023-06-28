@@ -7,10 +7,11 @@ terraform {
   }
 
   backend "s3" {
-    bucket  = "tcdimitriacosta2023"
-    key     = "technologia/terraform.tfstate"
-    region  = "us-east-1"
-    profile = "tcdimitri"
+    bucket         = "tcdimitriacosta2023"
+    key            = "technologia/terraform.tfstate"
+    region         = "us-east-1"
+    profile        = "tcdimitri"
+    dynamodb_table = "technologia-terraform-state"
   }
 }
 
