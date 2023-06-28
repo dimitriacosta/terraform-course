@@ -5,6 +5,13 @@ terraform {
       version = "5.4.0"
     }
   }
+
+  backend "s3" {
+    bucket  = "tcdimitriacosta2023"
+    key     = "technologia/terraform.tfstate"
+    region  = "us-east-1"
+    profile = "tcdimitri"
+  }
 }
 
 # Configure the AWS provider
