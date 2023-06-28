@@ -14,6 +14,24 @@ provider "aws" {
   profile = "tcdimitri"
 }
 
+# Define variables
+variable "infra_env" {
+  type        = string
+  description = "infrastructure environment"
+}
+
+variable "default_region" {
+  type        = string
+  description = "the region this infrastructur is in"
+  default     = "us-east-1"
+}
+
+variable "instance_size" {
+  type        = string
+  description = "EC2 web server size"
+  default     = "t2.micro"
+}
+
 # Get data
 data "aws_ami" "ami" {
 
@@ -40,20 +58,20 @@ data "aws_ami" "ami" {
 # Create resources
 resource "aws_instance" "technologia_web" {
   ami           = data.aws_ami.ami.id
-  instance_type = "t2.micro"
+  instance_type = var.instance_size
 
   root_block_device {
     volume_size = 8 #GB
   }
 
-  # lifecycle {
-  #   create_before_destroy = true
-  # }
+  lifecycle {
+    create_before_destroy = true
+  }
 
   tags = {
-    "Name"        = "technologia-staging-app"
+    "Name"        = "technologia-${var.infra_env}-app"
     "Project"     = "technologia.app"
-    "Environment" = "staging"
+    "Environment" = var.infra_env
     "ManagedBy"   = "terraform"
   }
 }
@@ -67,9 +85,9 @@ resource "aws_eip" "technologia_eip" {
   # }
 
   tags = {
-    "Name"        = "technologia-staging-app"
+    "Name"        = "technologia-${var.infra_env}-app"
     "Project"     = "technologia.app"
-    "Environment" = "staging"
+    "Environment" = var.infra_env
     "ManagedBy"   = "terraform"
   }
 }
