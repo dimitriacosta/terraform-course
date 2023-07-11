@@ -7,11 +7,11 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "tcdimitriacosta2023"
-    key            = "technologia/terraform.tfstate"
-    region         = "us-east-1"
-    profile        = "tcdimitri"
-    dynamodb_table = "technologia-terraform-state"
+    bucket  = "tcdimitriacosta2023"
+    key     = "technologia/terraform.tfstate"
+    region  = "us-east-1"
+    profile = "tcdimitri"
+    # dynamodb_table = "technologia-terraform-state"
   }
 }
 
@@ -64,43 +64,22 @@ data "aws_ami" "ami" {
 }
 
 # Create resources
-resource "aws_instance" "technologia_web" {
-  ami           = data.aws_ami.ami.id
-  instance_type = var.instance_size
+module "ec2_app" {
+  source = "./modules/ec2"
 
-  root_block_device {
-    volume_size = 8 #GB
-  }
-
-  lifecycle {
-    create_before_destroy = true
-  }
-
-  tags = {
-    "Name"        = "technologia-${var.infra_env}-app"
-    "Project"     = "technologia.app"
-    "Environment" = var.infra_env
-    "ManagedBy"   = "terraform"
-  }
+  infra_env = var.infra_env
+  infra_role = "app"
+  instance_size = "t2.micro"
+  instance_ami = data.aws_ami.ami.id
+  # instance_root_device_size = 12 # optional
 }
 
-resource "aws_eip" "technologia_eip" {
-  # instance = aws_instance.technologia_web.id
-  domain = "vpc"
+module "ec2_worker" {
+  source = "./modules/ec2"
 
-  # lifecycle {
-  #   prevent_destroy = true
-  # }
-
-  tags = {
-    "Name"        = "technologia-${var.infra_env}-app"
-    "Project"     = "technologia.app"
-    "Environment" = var.infra_env
-    "ManagedBy"   = "terraform"
-  }
-}
-
-resource "aws_eip_association" "technologia_eip_association" {
-  instance_id   = aws_instance.technologia_web.id
-  allocation_id = aws_eip.technologia_eip.id
+  infra_env = var.infra_env
+  infra_role = "worker"
+  instance_size = "t3.large"
+  instance_ami = data.aws_ami.ami.id
+  instance_root_device_size = 50
 }
