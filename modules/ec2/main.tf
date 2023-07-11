@@ -9,7 +9,7 @@ resource "aws_instance" "technologia_web" {
 
   tags = {
     Name        = "technologia-${var.infra_env}-app"
-    Role = var.infra_role
+    Role        = var.infra_role
     Project     = "technologia.app"
     Environment = var.infra_env
     ManagedBy   = "terraform"
@@ -27,7 +27,7 @@ resource "aws_eip" "technologia_eip" {
 
   tags = {
     Name        = "technologia-${var.infra_env}-app"
-    Role = var.infra_role
+    Role        = var.infra_role
     Project     = "technologia.app"
     Environment = var.infra_env
     ManagedBy   = "terraform"

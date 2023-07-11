@@ -4,7 +4,7 @@ variable "infra_env" {
 }
 
 variable "infra_role" {
-  type = string
+  type        = string
   description = "infrastructure purpose"
 }
 
@@ -15,12 +15,12 @@ variable "instance_size" {
 }
 
 variable "instance_ami" {
-  type = string
+  type        = string
   description = "server image to use"
 }
 
 variable "instance_root_device_size" {
-  type = number
+  type        = number
   description = "root back device size in GB"
-  default = 12
+  default     = 12
 }
