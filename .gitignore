@@ -36,3 +36,4 @@ terraform.rc
 # Personal data
 .DS_Store
 .vscode/
+*.swp

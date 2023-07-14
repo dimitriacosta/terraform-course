@@ -67,19 +67,19 @@ data "aws_ami" "ami" {
 module "ec2_app" {
   source = "./modules/ec2"
 
-  infra_env = var.infra_env
-  infra_role = "app"
+  infra_env     = var.infra_env
+  infra_role    = "app"
   instance_size = "t2.micro"
-  instance_ami = data.aws_ami.ami.id
+  instance_ami  = data.aws_ami.ami.id
   # instance_root_device_size = 12 # optional
 }
 
 module "ec2_worker" {
   source = "./modules/ec2"
 
-  infra_env = var.infra_env
-  infra_role = "worker"
-  instance_size = "t3.large"
-  instance_ami = data.aws_ami.ami.id
+  infra_env                 = var.infra_env
+  infra_role                = "worker"
+  instance_size             = "t3.large"
+  instance_ami              = data.aws_ami.ami.id
   instance_root_device_size = 50
 }
