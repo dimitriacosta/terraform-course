@@ -21,9 +21,9 @@ resource "aws_eip" "technologia_eip" {
   # instance = aws_instance.technologia_web.id
   domain = "vpc"
 
-  lifecycle {
-    prevent_destroy = true
-  }
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
 
   tags = {
     Name        = "technologia-${var.infra_env}-app"
