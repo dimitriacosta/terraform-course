@@ -65,8 +65,7 @@ data "aws_ami" "ami" {
 
 # Create resources
 module "ec2_app" {
-  source = "./modules/ec2"
-
+  source                    = "./modules/ec2"
   infra_env                 = var.infra_env
   infra_role                = "app"
   instance_size             = var.instance_size
@@ -75,8 +74,7 @@ module "ec2_app" {
 }
 
 # module "ec2_worker" {
-#   source = "./modules/ec2"
-
+#   source                    = "./modules/ec2"
 #   infra_env                 = var.infra_env
 #   infra_role                = "worker"
 #   instance_size             = "t3.large"
